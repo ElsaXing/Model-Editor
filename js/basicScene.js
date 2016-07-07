@@ -223,19 +223,14 @@ function handleClick() {
             transformControls.attach(object);
             scene.add(transformControls);
                 eventTransformControls('add');
-            console.log(1);
             }
-            else {
-                console.log(3);
-            }
+
         }
         else {
             transformControls.detach();
             eventTransformControls('remove');
             object = null;
             scene.remove(transformControls);
-
-            console.log(2);
 
         }
     }

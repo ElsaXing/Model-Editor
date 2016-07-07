@@ -1,42 +1,55 @@
 /**
  * Created by Elsa on 2016/7/5.
  */
-function loadFile() {
+// function loadFile() {
 
-    var loader = new THREE.ColladaLoader();
-        loader.options.convertUpAxis = true;
-    
-        loader.load(
-            // resource URL
-            'model/rocket1.dae',
-            // Function when resource is loaded
-            function ( collada ) {
-                dae = collada.scene;
-                objects.add( dae.children[0].children[0]);
-            }
-        );
-
-    // var filename = document.getElementById('loadFile').files[0].name;
-    // var extension = filename.split( '.' ).pop().toLowerCase();
-    //
-    //
-    //
-    // if (extension == 'dae') {
-    //     var loader = new THREE.ColladaLoader();
+    // var loader = new THREE.ColladaLoader();
     //     loader.options.convertUpAxis = true;
     //
     //     loader.load(
     //         // resource URL
-    //         '  ',
+    //         'model/rocket1.dae',
     //         // Function when resource is loaded
     //         function ( collada ) {
     //             dae = collada.scene;
-    //             scene.add( dae);
+    //             objects.add( dae.children[0].children[0]);
     //         }
     //     );
-    // } else {
-    //     alert ('Only collada file will be accepted.');
-    // }
-}
+// }
+    var fileInput = document.getElementById('inputModel');
+
+    fileInput.addEventListener( 'change', function ( event ) {
+        loadModel( fileInput.files[ 0 ] );
+    } );
+
+    function loadModel(file) {
+        var filename = file.name;
+        var extension = filename.split( '.' ).pop().toLowerCase();
+
+        var reader = new FileReader();
+
+        if (extension == 'dae') {
+            reader.addEventListener( 'load', function ( event ) {
+
+                var contents = event.target.result;
+
+                var loader = new THREE.ColladaLoader();
+                var collada = loader.parse( contents );
+
+                collada.scene.children[0].children[0].name = filename;
+
+                objects.add(collada.scene.children[0].children[0]);
+                console.log('load done');
+
+            }, false );
+            reader.readAsText( file );
+        }
+
+        else {
+            alert ('only collada can be accepted');
+        }
+
+    }
+
 
 

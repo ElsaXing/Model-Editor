@@ -33,7 +33,7 @@ if (object) {
     var visible = object.visible;
 
     var p = document.createElement('p');
-    p.textContent = visible
+    p.textContent = visible；
     test.appendChild(p);
 } 
 
