@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Model Editor</title>
+    <link rel="stylesheet" href="css/index.css" >
 </head>
 <body>
-    <input type="file" id="inputModel">
+    <form>
+        <input type="file" id="inputModel">
+        <button type="submit" id="saveScene">save scene</button>
+    </form>
+
     <div id="container"></div>
 
 
@@ -15,6 +20,7 @@
     <script src="js/ColladaLoader.js"></script>
     <script src="js/basicScene.js"></script>
     <script src="js/loadModel.js"></script>
+    <script src="js/saveScene.js"></script>
 
 
 </body>

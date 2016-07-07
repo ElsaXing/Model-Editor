@@ -295,4 +295,5 @@ window.addEventListener( 'resize', function () {
     camera.updateProjectionMatrix();
 
     renderer.setSize( window.innerWidth * 2/3, window.innerHeight * 3/4);
+    
 }, false );
