@@ -21,6 +21,7 @@ var container =document.getElementById('container');
 
 //set up scene
 scene = new THREE.Scene();
+scene.name = "scene";
 
 
 //set up renderer
@@ -33,13 +34,14 @@ container.appendChild(renderer.domElement);
 //set up camera
 camera = new THREE.PerspectiveCamera(45,(window.innerWidth* 8)/(window.innerHeight * 9),1,1000);
 camera.position.set(20,6,20);
+camera.name = "defaultCamera";
 camera.lookAt(new THREE.Vector3(0,0,0));
 
 
 //set up light
 light= new THREE.PointLight(0xffffff,.8);
 light.position.set(-5,10,10);
-
+light.name = "defaultLight";
 scene.add(light);
 
 backgroundLight= new THREE.PointLight(0xffffff,.3);
@@ -50,6 +52,7 @@ scene.add(backgroundLight);
 
 
 skyLight = new THREE.HemisphereLight(0x99CCFF,0x99FFCC, .8);
+skyLight.name = "defaultSkyLight";
 scene.add(skyLight);
 
 
@@ -58,24 +61,35 @@ groundGeo = new THREE.PlaneBufferGeometry(1000,1000);
 groundMat = new THREE.MeshLambertMaterial({color:0xFFCC00});
 ground = new THREE.Mesh(groundGeo, groundMat);
 ground.rotation.x = -Math.PI/2;
+ground.name = "defaultGround";
 scene.add(ground);
 
 //set up sky
 skyGeo = new THREE.SphereGeometry(4000,32,15);
 skyMat = new THREE.MeshPhongMaterial({color:0x0033FF});
 sky = new THREE.Mesh(skyGeo, skyMat);
+sky.name = "defaultSky";
 scene.add(sky);
 
 
 //test object
 var objects = new THREE.Object3D();
+objects.name = "objects";
+scene.add(objects);
+
+
 var geometry = new THREE.BoxGeometry(5,5,5);
 var material = new THREE.MeshLambertMaterial({color:0x9966FF});
 
 var obj = new THREE.Mesh(geometry,material);
 obj.position.set(0,3,0);
 objects.add(obj);
-scene.add(objects);
+
+
+var ballGeo = new THREE.SphereGeometry(2,12,12);
+var ballMat = new THREE.MeshLambertMaterial({color: 0xccffcc});
+var ball = new THREE.Mesh(ballGeo,ballMat);
+objects.add(ball);
 
 
 //transform
