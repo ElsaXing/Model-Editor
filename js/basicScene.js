@@ -92,6 +92,14 @@ var ball = new THREE.Mesh(ballGeo,ballMat);
 objects.add(ball);
 
 
+//shadow
+scene.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
+renderer.shadowMapEnabled = true;
+light.castShadow = true;
+obj.castShadow =true;
+ground.receiveShadow =true;
+
+
 //transform
 
 var transformControls = new THREE.TransformControls( camera, container.firstElementChild);
@@ -157,50 +165,6 @@ function eventTransformControls(key) {
     });
 }
 
-
-//
-// var objectPosition,
-//     objectRotation,
-//     objectScale;
-//
-// transformControls.addEventListener('mouseDown', function() {
-//
-//     var object = transformControls.object;
-//
-//     objectPosition = object.position.clone();
-//     objectRotation = object.rotation.clone();
-//     objectScale = object.scale.clone();
-//
-// });
-//
-// transformControls.addEventListener('mouseUp', function() {
-//
-//     var object = transformControls.object;
-//
-//     if ( object !== undefined ) {
-//
-//         switch( transformControls.getMode()) {
-//
-//             case 'translate':
-//                 if (! objectPosition.equals(object.position)) {
-//                     //set position
-//                 }
-//                 break;
-//
-//             case 'rotate':
-//                 if ( !objectRotation.equals( object.rotaion)) {
-//                     //set rotation
-//                 }
-//                 break;
-//
-//             case 'scale' :
-//                 if (! objectScale.equals(object.scale)) {
-//                     //set scale
-//                 }
-//                 break;
-//         }
-//     }
-// });
 
 //picking
 
@@ -279,13 +243,6 @@ var controls = new THREE.EditorControls(camera, container);
 controls.pan = function(){};
 
 
-
-//shadow
-scene.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
-renderer.shadowMapEnabled = true;
-light.castShadow = true;
-obj.castShadow =true;
-ground.receiveShadow =true;
 
 //render
 function animate () {

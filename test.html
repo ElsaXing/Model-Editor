@@ -16,102 +16,60 @@
 <script src="js/ColladaLoader.js"></script>
 
 <script>
+    if (!window.indexedDB) {
+        window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.")
+    }
 
-    var camera, scene, renderer;
-    var controls = [];
 
-    init();
-    render();
+    // 我们的客户数据看起来像这样。
+    const customerData = [
+        { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+        { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
+    ];
+    const dbName = "the_name";
 
-    var fileInput = document.getElementById('inputModel');
+    var request = indexedDB.open(dbName, 2);
 
-    fileInput.addEventListener( 'change', function ( event ) {
-        loadModel( fileInput.files[ 0 ] );
-    } );
+    request.onerror = function(event) {
+        // 错误处理程序在这里。
+    };
+    request.onupgradeneeded = function(event) {
+        var db = event.target.result;
 
-    function loadModel(file) {
-        var filename = file.name;
-        var extension = filename.split( '.' ).pop().toLowerCase();
+        // 创建一个对象存储空间来持有有关我们客户的信息。
+        // 我们将使用 "ssn" 作为我们的 key path 因为它保证是唯一的。
+        var objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
 
-        var reader = new FileReader();
+        // 创建一个索引来通过 name 搜索客户。
+        // 可能会有重复的，因此我们不能使用 unique 索引。
+        objectStore.createIndex("name", "name", { unique: false });
 
-        if (extension == 'dae') {
-            reader.addEventListener( 'load', function ( event ) {
+        // 创建一个索引来通过 email 搜索客户。
+        // 我们希望确保不会有两个客户使用相同的 email 地址，因此我们使用一个 unique 索引。
+        objectStore.createIndex("email", "email", { unique: true });
 
-                var contents = event.target.result;
-
-                var loader = new THREE.ColladaLoader();
-                var collada = loader.parse( contents );
-
-                collada.scene.name = filename;
-
-                scene.add(collada.scene);
-                console.log('load done');
-
-            }, false );
-            reader.readAsText( file );
+        // 在新创建的对象存储空间中保存值
+        for (var i in customerData) {
+            objectStore.add(customerData[i]);
         }
+    };
 
-        else {
-            alert ('only collada can be accepted');
-        }
+    // 当所有的数据都被增加到数据库时执行一些操作
+    transaction.oncomplete = function(event) {
+        alert("All done!");
+    };
 
+    transaction.onerror = function(event) {
+        // 不要忘记进行错误处理！
+    };
+
+    var objectStore = transaction.objectStore("customers");
+    for (var i in customerData) {
+        var request = objectStore.add(customerData[i]);
+        request.onsuccess = function(event) {
+            // event.target.result == customerData[i].ssn
+        };
     }
-
-    function init() {
-
-        renderer = new THREE.WebGLRenderer();
-        renderer.sortObjects = false;
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        document.body.appendChild( renderer.domElement );
-
-        //
-
-        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 3000 );
-        camera.position.set( 10, 5, 10);
-        camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
-
-        scene = new THREE.Scene();
-
-        var light = new THREE.PointLight(0xffffff);
-        light.position.set(1,1,-1);
-        scene.add(light);
-
-        var planeGeo = new THREE.PlaneGeometry(10,10);
-        var material = new THREE.MeshLambertMaterial({color:0xffffff});
-        var plane =new THREE.Mesh(planeGeo, material);
-        scene.add(plane);
-
-
-        window.addEventListener( 'resize', onWindowResize, false );
-
-    }
-
-
-
-    function onWindowResize() {
-
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize( window.innerWidth, window.innerHeight );
-
-        render();
-
-    }
-
-    function render() {
-
-        for ( var i = 0, j = controls.length; i < j; i ++ ) {
-
-            controls[ i ].update();
-
-        }
-
-        renderer.render( scene, camera );
-
-    }
-
 </script>
 
 </body>
