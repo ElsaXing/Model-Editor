@@ -3,7 +3,7 @@
  */
 
 var scene,
-    camera,
+    defaultCamera,
     renderer,
     light,
     backgroundLight,
@@ -14,257 +14,235 @@ var groundGeo,
     skyGeo,
     skyMat,
     sky;
-var object;
+var object,
+    objects;
+var transformControls;
 var container =document.getElementById('container');
 
 
+function init() {
+    //set up scene
+    scene = new THREE.Scene();
+    scene.name = "scene";
 
-//set up scene
-scene = new THREE.Scene();
-scene.name = "scene";
 
-
-//set up renderer
-renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.setClearColor(0xccffff);
-renderer.setSize(window.innerWidth * 2/3, window.innerHeight * 3/4);
-container.appendChild(renderer.domElement);
 
 
 //set up camera
-camera = new THREE.PerspectiveCamera(45,(window.innerWidth* 8)/(window.innerHeight * 9),1,1000);
-camera.position.set(20,6,20);
-camera.name = "defaultCamera";
-camera.lookAt(new THREE.Vector3(0,0,0));
+    defaultCamera = new THREE.PerspectiveCamera(45,(window.innerWidth* 8)/(window.innerHeight * 9),1,1000);
+    defaultCamera.position.set(20,6,20);
+    defaultCamera.name = "defaultCamera";
+    defaultCamera.lookAt(new THREE.Vector3(0,0,0));
 
 
 //set up light
-light= new THREE.PointLight(0xffffff,.8);
-light.position.set(-5,10,10);
-light.name = "defaultLight";
-scene.add(light);
+    light= new THREE.PointLight(0xffffff,.8);
+    light.position.set(-5,10,10);
+    light.name = "defaultLight";
+    scene.add(light);
 
-backgroundLight= new THREE.PointLight(0xffffff,.3);
-backgroundLight.position.set(5,5,-10);
+    backgroundLight= new THREE.PointLight(0xffffff,.3);
+    backgroundLight.position.set(5,5,-10);
 
-scene.add(backgroundLight);
+    scene.add(backgroundLight);
 
 
 
-skyLight = new THREE.HemisphereLight(0x99CCFF,0x99FFCC, .8);
-skyLight.name = "defaultSkyLight";
-scene.add(skyLight);
+    skyLight = new THREE.HemisphereLight(0x99CCFF,0x99FFCC, .8);
+    skyLight.name = "defaultSkyLight";
+    scene.add(skyLight);
 
 
 //set up ground
-groundGeo = new THREE.PlaneBufferGeometry(1000,1000);
-groundMat = new THREE.MeshLambertMaterial({color:0xFFCC00});
-ground = new THREE.Mesh(groundGeo, groundMat);
-ground.rotation.x = -Math.PI/2;
-ground.name = "defaultGround";
-scene.add(ground);
+    groundGeo = new THREE.PlaneBufferGeometry(1000,1000);
+    groundMat = new THREE.MeshLambertMaterial({color:0xFFCC00});
+    ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI/2;
+    ground.name = "defaultGround";
+    scene.add(ground);
 
 //set up sky
-skyGeo = new THREE.SphereGeometry(4000,32,15);
-skyMat = new THREE.MeshPhongMaterial({color:0x0033FF});
-sky = new THREE.Mesh(skyGeo, skyMat);
-sky.name = "defaultSky";
-scene.add(sky);
+    skyGeo = new THREE.SphereGeometry(4000,32,15);
+    skyMat = new THREE.MeshPhongMaterial({color:0x0033FF});
+    sky = new THREE.Mesh(skyGeo, skyMat);
+    sky.name = "defaultSky";
+    scene.add(sky);
 
 
-//test object
-var objects = new THREE.Object3D();
-objects.name = "objects";
-scene.add(objects);
+
+    
+
+    //shadow
+    scene.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
+//     renderer.shadowMapEnabled = true;
+//     light.castShadow = true;
+//     obj.castShadow =true;
+//     ground.receiveShadow =true;
+
+// test object
+    objects = new THREE.Object3D();
+    objects.name = "objects";
+    scene.add(objects);
+}
 
 
-var geometry = new THREE.BoxGeometry(5,5,5);
-var material = new THREE.MeshLambertMaterial({color:0x9966FF});
-
-var obj = new THREE.Mesh(geometry,material);
-obj.position.set(0,3,0);
-objects.add(obj);
-
-
-var ballGeo = new THREE.SphereGeometry(2,12,12);
-var ballMat = new THREE.MeshLambertMaterial({color: 0xccffcc});
-var ball = new THREE.Mesh(ballGeo,ballMat);
-objects.add(ball);
-
-
-//shadow
-scene.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
-renderer.shadowMapEnabled = true;
-light.castShadow = true;
-obj.castShadow =true;
-ground.receiveShadow =true;
-
+function transform() {
 
 //transform
 
-var transformControls = new THREE.TransformControls( camera, container.firstElementChild);
-transformControls.addEventListener('change',render);
+    transformControls = new THREE.TransformControls( defaultCamera, container.firstElementChild);
+    transformControls.addEventListener('change',render);
 
-function eventTransformControls(key) {
-    var change;
-    if (key == 'add') {
-        change = window.addEventListener;
-    } else {
-        change = window.removeEventListener;
+    function eventTransformControls(key) {
+        var change;
+        if (key == 'add') {
+            change = window.addEventListener;
+        } else {
+            change = window.removeEventListener;
+        }
+        change( 'keydown', function ( event ) {
+
+            switch ( event.keyCode ) {
+
+                case 81: // Q
+                    transformControls.setSpace( transformControls.space === "local" ? "world" : "local" );
+                    break;
+
+                case 17: // Ctrl
+                    transformControls.setTranslationSnap( 100 );
+                    transformControls.setRotationSnap( THREE.Math.degToRad( 15 ) );
+                    break;
+
+                case 87: // W
+                    transformControls.setMode( "translate" );
+                    break;
+
+                case 69: // E
+                    transformControls.setMode( "rotate" );
+                    break;
+
+                case 82: // R
+                    transformControls.setMode( "scale" );
+                    break;
+
+                case 187:
+                case 107: // +, =, num+
+                    transformControls.setSize( control.size + 0.1 );
+                    break;
+
+                case 189:
+                case 109: // -, _, num-
+                    transformControls.setSize( Math.max( control.size - 0.1, 0.1 ) );
+                    break;
+
+            }
+
+        });
+
+        change( 'keyup', function ( event ) {
+
+            switch ( event.keyCode ) {
+
+                case 17: // Ctrl
+                    transformControls.setTranslationSnap( null );
+                    transformControls.setRotationSnap( null );
+                    break;
+
+            }
+
+        });
     }
-    change( 'keydown', function ( event ) {
-
-        switch ( event.keyCode ) {
-
-            case 81: // Q
-                transformControls.setSpace( transformControls.space === "local" ? "world" : "local" );
-                break;
-
-            case 17: // Ctrl
-                transformControls.setTranslationSnap( 100 );
-                transformControls.setRotationSnap( THREE.Math.degToRad( 15 ) );
-                break;
-
-            case 87: // W
-                transformControls.setMode( "translate" );
-                break;
-
-            case 69: // E
-                transformControls.setMode( "rotate" );
-                break;
-
-            case 82: // R
-                transformControls.setMode( "scale" );
-                break;
-
-            case 187:
-            case 107: // +, =, num+
-                transformControls.setSize( control.size + 0.1 );
-                break;
-
-            case 189:
-            case 109: // -, _, num-
-                transformControls.setSize( Math.max( control.size - 0.1, 0.1 ) );
-                break;
-
-        }
-
-    });
-
-    change( 'keyup', function ( event ) {
-
-        switch ( event.keyCode ) {
-
-            case 17: // Ctrl
-                transformControls.setTranslationSnap( null );
-                transformControls.setRotationSnap( null );
-                break;
-
-        }
-
-    });
-}
 
 
 //picking
 
-var raycaster = new THREE.Raycaster();
-var mouseVector = new THREE.Vector2();
+    var raycaster = new THREE.Raycaster();
+    var mouseVector = new THREE.Vector2();
 
-function getIntersects( point, objects ) {
+    function getIntersects( point, objects ) {
 
-    mouseVector.set( ( point.x * 2 ) - 1, 1 - ( point.y * 2) );
+        mouseVector.set( ( point.x * 2 ) - 1, 1 - ( point.y * 2) );
 
-    raycaster.setFromCamera( mouseVector, camera );
+        raycaster.setFromCamera( mouseVector, defaultCamera );
 
-    return raycaster.intersectObjects( objects );
+        return raycaster.intersectObjects( objects );
 
-}
+    }
 
-var onDownPosition = new THREE.Vector2();
-var onUpPosition = new THREE.Vector2();
+    var onDownPosition = new THREE.Vector2();
+    var onUpPosition = new THREE.Vector2();
 
-function getMousePosition( dom, x, y ) {
+    function getMousePosition( dom, x, y ) {
 
-    var rect = dom.getBoundingClientRect();
-    return [ ( x - rect.left ) / rect.width, ( y - rect.top ) / rect.height ];
+        var rect = dom.getBoundingClientRect();
+        return [ ( x - rect.left ) / rect.width, ( y - rect.top ) / rect.height ];
 
-}
+    }
 
-function handleClick() {
-    if( onDownPosition.x == onUpPosition.x  &&  onDownPosition.y == onUpPosition.y  ) {
-        var intersects = getIntersects( onUpPosition, objects.children );
+    function handleClick() {
+        if( onDownPosition.x == onUpPosition.x  &&  onDownPosition.y == onUpPosition.y  ) {
+            var intersects = getIntersects( onUpPosition, objects.children );
 
-        if ( intersects.length > 0 ) {
-            if (object !== intersects[0].object) {
-            object = intersects[0].object;
-            transformControls.attach(object);
-            scene.add(transformControls);
-                eventTransformControls('add');
+            if ( intersects.length > 0 ) {
+                if (object !== intersects[0].object) {
+                    object = intersects[0].object;
+                    transformControls.attach(object);
+                    scene.add(transformControls);
+                    eventTransformControls('add');
+                }
+
             }
+            else {
+                transformControls.detach();
+                eventTransformControls('remove');
+                object = null;
+                scene.remove(transformControls);
 
-        }
-        else {
-            transformControls.detach();
-            eventTransformControls('remove');
-            object = null;
-            scene.remove(transformControls);
-
+            }
         }
     }
-}
 
-function onMouseDown( event ) {
+    function onMouseDown( event ) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    var array = getMousePosition( container.firstElementChild, event.clientX, event.clientY );
-    onDownPosition.fromArray( array );
+        var array = getMousePosition( container.firstElementChild, event.clientX, event.clientY );
+        onDownPosition.fromArray( array );
 
-    document.addEventListener( 'mouseup', onMouseUp, false );
+        document.addEventListener( 'mouseup', onMouseUp, false );
 
-}
+    }
 
-function onMouseUp( event ) {
+    function onMouseUp( event ) {
 
-    var array = getMousePosition( container.firstElementChild, event.clientX, event.clientY );
-    onUpPosition.fromArray( array );
+        var array = getMousePosition( container.firstElementChild, event.clientX, event.clientY );
+        onUpPosition.fromArray( array );
 
-    handleClick();
+        handleClick();
 
-    document.removeEventListener( 'mouseup', onMouseUp, false );
+        document.removeEventListener( 'mouseup', onMouseUp, false );
 
-}
+    }
 
-container.addEventListener( 'mousedown', onMouseDown, false );
-
-
-var controls = new THREE.EditorControls(camera, container);
-controls.pan = function(){};
+    container.addEventListener( 'mousedown', onMouseDown, false );
 
 
+    var controls = new THREE.EditorControls(defaultCamera, container);
+    controls.pan = function(){};
 
-//render
-function animate () {
-    requestAnimationFrame(animate );
-    transformControls.update();
-    render();
-}
 
-function render () {
-    renderer.render(scene,camera);
-}
 
-animate();
 
 
 
 //container resize
-window.addEventListener( 'resize', function () {
+    window.addEventListener( 'resize', function () {
 
-    camera.aspect = (window.innerWidth* 8)/(window.innerHeight * 9);
-    camera.updateProjectionMatrix();
+        defaultCamera.aspect = (window.innerWidth* 8)/(window.innerHeight * 9);
+        defaultCamera.updateProjectionMatrix();
 
-    renderer.setSize( window.innerWidth * 2/3, window.innerHeight * 3/4);
-    
-}, false );
+        renderer.setSize( window.innerWidth * 2/3, window.innerHeight * 3/4);
+
+    }, false );
+
+}

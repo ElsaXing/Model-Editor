@@ -45,4 +45,18 @@ function resetFormElement(e) {
 }
 
 
+function yo() {
+
+    var geometry = new THREE.BoxGeometry(5, 5, 5);
+    var material = new THREE.MeshLambertMaterial({color: 0x9966FF});
+
+    var obj = new THREE.Mesh(geometry, material);
+    obj.position.set(0, 3, 0);
+    objects.add(obj);
+
+    var ballGeo = new THREE.SphereGeometry(2, 12, 12);
+    var ballMat = new THREE.MeshLambertMaterial({color: 0xccffcc});
+    var ball = new THREE.Mesh(ballGeo, ballMat);
+    objects.add(ball);
+}
 

@@ -8,7 +8,9 @@
 <body>
     <form>
         <input type="file" id="inputModel">
-        <button type="button" id="saveScene" onclick="addData(event)">save scene</button>
+        <button type="button" id="addMesh" onclick="yo()">add mesh</button>
+        <button type="button" id="saveScene" onclick="addData()">save scene</button>
+        <button type="button" id="getScene" onclick="getData()">get scene</button>
     </form>
 
     <div id="container"></div>
@@ -23,6 +25,34 @@
     <!--<script src="js/saveScene.js"></script>-->
     <script src="testSave.js"></script>
 
+    <script>
+        //set up renderer
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setClearColor(0xccffff);
+        renderer.setSize(window.innerWidth * 2/3, window.innerHeight * 3/4);
+        container.appendChild(renderer.domElement);
+
+
+        if (!localStorage.getItem('scene')) {
+            init();
+        } else {
+            init();
+        }
+        transform();
+        //render
+        function animate () {
+            requestAnimationFrame(animate );
+            transformControls.update();
+            render();
+        }
+
+        function render () {
+            renderer.render(scene,defaultCamera);
+        }
+
+        animate();
+
+    </script>
 
 </body>
 </html>
