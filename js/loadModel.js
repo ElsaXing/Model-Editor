@@ -21,7 +21,7 @@ function loadModel(file) {
 
             collada.scene.children[0].children[0].name = filename;
 
-            objects.add(collada.scene.children[0].children[0]);
+            userSceneElements.add(collada.scene.children[0].children[0]);
             console.log(filename + ' load done');
 
 
@@ -53,12 +53,12 @@ function yo() {
 
     var obj = new THREE.Mesh(geometry, material);
     obj.position.set(0, 3, 0);
-    objects.add(obj);
+    userSceneElements.add(obj);
 
     var ballGeo = new THREE.SphereGeometry(2, 12, 12);
     var ballMat = new THREE.MeshLambertMaterial({color: 0xccffcc});
     var ball = new THREE.Mesh(ballGeo, ballMat);
-    objects.add(ball);
+    userSceneElements.add(ball);
 }
 
 
@@ -68,7 +68,7 @@ function yo() {
 
      loader.load(
          // resource URL
-         'model/rocket1.dae',
+         'model/modelwithScene.dae',
          // Function when resource is loaded
          function ( collada ) {
              dae = collada.scene;

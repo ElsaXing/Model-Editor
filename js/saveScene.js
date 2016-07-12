@@ -37,7 +37,7 @@ DBOpenRequest.onupgradeneeded = function(event) {
 function addData(event) {
     //get data
     var sceneData = sceneToJson();
-
+    console.log(JSON.stringify(sceneData));
 
     var transaction = db.transaction(["sceneList"], "readwrite");
 

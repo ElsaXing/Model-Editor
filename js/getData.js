@@ -59,7 +59,7 @@ function addObject( object ) {
     } );
 
     scene.add( object );
-    objects = scene.children[6];
+    userSceneElements = scene.children[2];
 
 }
 
