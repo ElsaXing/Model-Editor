@@ -11,6 +11,7 @@ function loadModel(file) {
     var reader = new FileReader();
 
     if (extension == 'dae') {
+
         reader.addEventListener( 'load', function ( event ) {
 
             var contents = event.target.result;
@@ -60,3 +61,27 @@ function yo() {
     objects.add(ball);
 }
 
+
+ function load() {
+     var loader = new THREE.ColladaLoader();
+     loader.options.convertUpAxis = true;
+
+     loader.load(
+         // resource URL
+         'model/rocket1.dae',
+         // Function when resource is loaded
+         function ( collada ) {
+             dae = collada.scene;
+             scene.add( collada.scene );
+
+
+             //dae contains all the objects in a scene，
+             //cast and receive shadow only works  on object.
+             dae.traverse(function(child) {
+                 child.castShadow = true;
+                 child.receiveShadow = true;
+                 console.log(child);
+             });
+         }
+     );
+ }

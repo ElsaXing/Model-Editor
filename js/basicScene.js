@@ -83,6 +83,8 @@ function init() {
     objects = new THREE.Object3D();
     objects.name = "objects";
     scene.add(objects);
+    
+    
 }
 
 
@@ -103,12 +105,18 @@ function transform() {
         change( 'keydown', function ( event ) {
 
             switch ( event.keyCode ) {
+                case 46: //delete
+                    transformControls.detach();
+                    eventTransformControls('remove');
+                    object = null;
+                    scene.remove(transformControls);
+                    deleteObject();
 
                 case 81: // Q
                     transformControls.setSpace( transformControls.space === "local" ? "world" : "local" );
                     break;
 
-                case 17: // Ctrl
+                case 16: // Shift
                     transformControls.setTranslationSnap( 100 );
                     transformControls.setRotationSnap( THREE.Math.degToRad( 15 ) );
                     break;
@@ -143,7 +151,7 @@ function transform() {
 
             switch ( event.keyCode ) {
 
-                case 17: // Ctrl
+                case 16: // Shift
                     transformControls.setTranslationSnap( null );
                     transformControls.setRotationSnap( null );
                     break;
@@ -182,6 +190,7 @@ function transform() {
     function handleClick() {
         if( onDownPosition.x == onUpPosition.x  &&  onDownPosition.y == onUpPosition.y  ) {
             var intersects = getIntersects( onUpPosition, objects.children );
+            console.log(objects.children);
 
             if ( intersects.length > 0 ) {
                 if (object !== intersects[0].object) {

@@ -1,76 +1,68 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>test</title>
-    <meta charset="utf-8">
-    <style>
-
-    </style>
+    <meta charset="UTF-8">
+    <title>Document</title>
 </head>
 <body>
+    <script src="js/three.js"></script>
+    <script>
+            var scene, camera, renderer;
+            var object, light;
 
-<input type="file" id="inputModel">
+            scene = new THREE.Scene();
 
-<script src="js/three.js"></script>
-<script src="js/ColladaLoader.js"></script>
+            camera = new THREE.PerspectiveCamera(45,16/9, .1, 1000);
+            camera.lookAt(new THREE.Vector3(0,0,0));
+            camera.position.set(5,5,5);
 
-<script>
-    if (!window.indexedDB) {
-        window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.")
-    }
+            renderer = new THREE.WebGLRenderer();
+            renderer.setClearColor(0xCCFFFF);
+            renderer.setSize(720,405);
+            document.body.appendChild(renderer.domElement);
 
 
-    // 我们的客户数据看起来像这样。
-    const customerData = [
-        { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
-        { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
-    ];
-    const dbName = "the_name";
+            light = new THREE.PointLight(0xffffff,1);
+            light.position.set(-3,3,0);
+            scene.add(light);
 
-    var request = indexedDB.open(dbName, 2);
+            var geometry = new THREE.BoxGeometry(1,1,1);
+            var material = new THREE.MeshLambertMaterial({color: 0xFF99FF});
+            object = new THREE.Mesh(geometry,material);
+            object.position.set(0,0,0);
+            object.userData = {
+                date: 12,
+                weather: "sunny"
+            };
+            scene.add(object);
 
-    request.onerror = function(event) {
-        // 错误处理程序在这里。
-    };
-    request.onupgradeneeded = function(event) {
-        var db = event.target.result;
+            var geo = new THREE.SphereGeometry(1,12,12);
+            var mat = new THREE.MeshLambertMaterial({color: 0xccffcc});
+            var sphere = new THREE.Mesh(geo,mat);
+            sphere.position.set(3, 0, 0);
+            scene.add(sphere);
 
-        // 创建一个对象存储空间来持有有关我们客户的信息。
-        // 我们将使用 "ssn" 作为我们的 key path 因为它保证是唯一的。
-        var objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
+            renderer.render(scene, camera);
 
-        // 创建一个索引来通过 name 搜索客户。
-        // 可能会有重复的，因此我们不能使用 unique 索引。
-        objectStore.createIndex("name", "name", { unique: false });
+            function toJ () {
 
-        // 创建一个索引来通过 email 搜索客户。
-        // 我们希望确保不会有两个客户使用相同的 email 地址，因此我们使用一个 unique 索引。
-        objectStore.createIndex("email", "email", { unique: true });
 
-        // 在新创建的对象存储空间中保存值
-        for (var i in customerData) {
-            objectStore.add(customerData[i]);
-        }
-    };
+                return {
 
-    // 当所有的数据都被增加到数据库时执行一些操作
-    transaction.oncomplete = function(event) {
-        alert("All done!");
-    };
+                    metadata: {},
+                    project: {
 
-    transaction.onerror = function(event) {
-        // 不要忘记进行错误处理！
-    };
+                    },
+                    camera: camera.toJSON(),
+                    scene: scene.toJSON()
 
-    var objectStore = transaction.objectStore("customers");
-    for (var i in customerData) {
-        var request = objectStore.add(customerData[i]);
-        request.onsuccess = function(event) {
-            // event.target.result == customerData[i].ssn
-        };
-    }
-</script>
+                };
 
+            }
+
+        var j = toJ();
+
+
+    </script>
 </body>
 </html>
