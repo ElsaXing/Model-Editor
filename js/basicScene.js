@@ -19,6 +19,7 @@ var groundGeo,
     skyMat,
     sky;
 var object;
+var deletedObject = [];
 var transformControls;
 var container =document.getElementById('container');
 
@@ -124,11 +125,12 @@ function transform() {
 
             switch ( event.keyCode ) {
                 case 46: //delete
+                    deleteObject(object);
                     transformControls.detach();
                     eventTransformControls('remove');
                     object = null;
                     scene.remove(transformControls);
-                    deleteObject();
+                    break;
 
                 case 81: // Q
                     transformControls.setSpace( transformControls.space === "local" ? "world" : "local" );
@@ -149,16 +151,6 @@ function transform() {
 
                 case 82: // R
                     transformControls.setMode( "scale" );
-                    break;
-
-                case 187:
-                case 107: // +, =, num+
-                    transformControls.setSize( control.size + 0.1 );
-                    break;
-
-                case 189:
-                case 109: // -, _, num-
-                    transformControls.setSize( Math.max( control.size - 0.1, 0.1 ) );
                     break;
 
             }

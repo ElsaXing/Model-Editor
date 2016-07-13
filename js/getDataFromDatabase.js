@@ -1,4 +1,4 @@
-function getData() {
+function getDataFromDatabase() {
 
     var loader = new THREE.XHRLoader();
 
@@ -10,6 +10,23 @@ function getData() {
         fromJSON ( JSON.parse( data ));
 })
 }
+
+    
+// function getDataFromDatabase(callback) {
+//
+//     var transaction = db.transaction( [ 'sceneList' ], 'readwrite' );
+//     var objectStore = transaction.objectStore( 'sceneList' );
+//     var request = objectStore.get( 0 );
+//     request.onsuccess = function ( event ) {
+//
+//         callback( event.target.result );
+//
+//     };
+//     var myData = request.result;
+//
+//     loader.parse(myData);
+//
+// }
 
  function fromJSON( json ) {
 

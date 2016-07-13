@@ -34,8 +34,8 @@ DBOpenRequest.onupgradeneeded = function(event) {
 
 
 
-function addData(event) {
-    //get data
+function addDataToDatabase(event) {
+    //get data from scene
     var sceneData = sceneToJson();
     console.log(JSON.stringify(sceneData));
 
@@ -59,6 +59,22 @@ function addData(event) {
 }
 
 
+// function sceneToJson () {
+//
+//     return {
+//
+//         metadata: {},
+//         project: {
+//
+//         },
+//         camera: defaultCamera.toJSON(),
+//         sensingElements: scene.children[1].toJSON(),
+//         userSceneElements: "url"
+//
+//     };
+//    
+// }
+
 function sceneToJson () {
 
     return {
@@ -71,7 +87,7 @@ function sceneToJson () {
         scene: scene.toJSON()
 
     };
-    
+
 }
 
 

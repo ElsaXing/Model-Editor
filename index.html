@@ -7,11 +7,11 @@
 </head>
 <body>
     <form>
-        <input type="file" id="inputModel">
+        <input type="file" id="inputModel"><br>
         <button type="button" onclick="load()">load model test</button>
-        <button type="button" id="addMesh" onclick="yo()">add mesh</button>
-        <button type="button" id="saveScene" onclick="addData()">save scene</button>
-        <button type="button" id="getScene" onclick="getData()">get scene</button>
+        <button type="button" id="addMesh" onclick="yo()">add mesh</button><br>
+        <button type="button" id="saveScene" onclick="addDataToDatabase()">save scene</button>
+        <button type="button" id="getScene" onclick="getDataFromDatabase()">get scene</button>
     </form>
 
     <div id="container"></div>
@@ -21,10 +21,13 @@
     <script src="js/TransformControls.js"></script>
     <script src="js/EditorControls.js"></script>
     <script src="js/ColladaLoader.js"></script>
+
+
     <script src="js/basicScene.js"></script>
     <script src="js/loadModel.js"></script>
     <script src="js/saveScene.js"></script>
-    <script src="js/getData.js"></script>
+    <script src="js/getDataFromDatabase.js"></script>
+    <script src="js/deleteObject.js"></script>
 
     <script>
         //set up renderer
@@ -38,7 +41,7 @@
             init();
         } else {
             init();
-            getData();
+//            getDataFromDatabase();
         }
         transform();
         //render
