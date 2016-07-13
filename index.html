@@ -6,15 +6,26 @@
     <link rel="stylesheet" href="css/index.css" >
 </head>
 <body>
-    <form>
-        <input type="file" id="inputModel"><br>
-        <button type="button" onclick="load()">load model test</button>
-        <button type="button" id="addMesh" onclick="yo()">add mesh</button><br>
-        <button type="button" id="saveScene" onclick="addDataToDatabase()">save scene</button>
-        <button type="button" id="getScene" onclick="getDataFromDatabase()">get scene</button>
-    </form>
-
     <div id="container"></div>
+    <a href="ModelView.html" id="linkButton">Model View</a>
+    <div id="menuBar">
+        <form>
+            <input type="file" id="btn_inputModel"><br>
+            <button type="button" id="btn_defaultBackground" onclick="defaultBackground()">add default background</button><br>
+            <button type="button" class="btn_addMesh" onclick="addPreMesh('cube')">cube</button>
+            <button type="button" class="btn_addMesh" onclick="addPreMesh('sphere')">sphere</button>
+            <button type="button" class="btn_addMesh" onclick="addPreMesh('cylinder')">cylinder</button><br>
+            <button type="button" id="btn_saveScene" onclick="addDataToDatabase()">save scene</button>
+            <button type="button" id="btn_getScene" onclick="getDataFromDatabase()">get scene</button>
+        </form>
+        <div id="menu"></div>
+    </div>
+
+
+
+    <!--<script src="//cdn.bootcss.com/react/15.2.1/react.js"></script>-->
+    <!--<script src="//cdn.bootcss.com/react/15.2.1/react-dom.js"></script>-->
+    <!--<script src="//cdn.bootcss.com/babel-core/5.8.24/browser.js"></script>-->
 
 
     <script src="js/three.js"></script>
@@ -28,6 +39,9 @@
     <script src="js/saveScene.js"></script>
     <script src="js/getDataFromDatabase.js"></script>
     <script src="js/deleteObject.js"></script>
+    <script src="js/showUserData.js"></script>
+    <script src="js/transform.js"></script>
+
 
     <script>
         //set up renderer
@@ -39,6 +53,7 @@
 
         if (!localStorage.getItem('scene')) {
             init();
+
         } else {
             init();
 //            getDataFromDatabase();

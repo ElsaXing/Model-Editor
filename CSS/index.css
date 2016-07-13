@@ -1,4 +1,15 @@
 #container {
     width: 68%;
     height: 68%;
+    float: left;
+}
+
+#menuBar {
+    width: 30%;
+    height: 68%;
+    float: right;
+}
+
+#linkButton {
+    padding: 15px;
 }

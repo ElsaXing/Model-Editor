@@ -1,68 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/react/15.2.1/react.js"></script>
+    <script src="http://cdn.bootcss.com/react/15.2.1/react-dom.js"></script>
+    <script src="http://cdn.bootcss.com/babel-core/5.8.24/browser.js"></script>
 </head>
 <body>
-    <script src="js/three.js"></script>
-    <script>
-            var scene, camera, renderer;
-            var object, light;
+    <div id="menu"></div>
 
-            scene = new THREE.Scene();
+    <script type="text/babel">
 
-            camera = new THREE.PerspectiveCamera(45,16/9, .1, 1000);
-            camera.lookAt(new THREE.Vector3(0,0,0));
-            camera.position.set(5,5,5);
-
-            renderer = new THREE.WebGLRenderer();
-            renderer.setClearColor(0xCCFFFF);
-            renderer.setSize(720,405);
-            document.body.appendChild(renderer.domElement);
-
-
-            light = new THREE.PointLight(0xffffff,1);
-            light.position.set(-3,3,0);
-            scene.add(light);
-
-            var geometry = new THREE.BoxGeometry(1,1,1);
-            var material = new THREE.MeshLambertMaterial({color: 0xFF99FF});
-            object = new THREE.Mesh(geometry,material);
-            object.position.set(0,0,0);
-            object.userData = {
-                date: 12,
-                weather: "sunny"
-            };
-            scene.add(object);
-
-            var geo = new THREE.SphereGeometry(1,12,12);
-            var mat = new THREE.MeshLambertMaterial({color: 0xccffcc});
-            var sphere = new THREE.Mesh(geo,mat);
-            sphere.position.set(3, 0, 0);
-            scene.add(sphere);
-
-            renderer.render(scene, camera);
-
-            function toJ () {
-
-
-                return {
-
-                    metadata: {},
-                    project: {
-
-                    },
-                    camera: camera.toJSON(),
-                    scene: scene.toJSON()
-
-                };
-
-            }
-
-        var j = toJ();
-
-
+        ReactDOM.render(
+                <h1>yo</h1>,
+                document.getElementById('menu')
+        );
     </script>
 </body>
 </html>
