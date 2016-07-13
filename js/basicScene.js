@@ -11,6 +11,7 @@ var scene,
 var DEFAULT,
     userSceneElements,
     sensingElements;
+var transformGroup;
 var groundGeo,
     groundMat,
     ground,
@@ -27,55 +28,69 @@ function init() {
     scene = new THREE.Scene();
     scene.name = "scene";
 
-
-
-
-//set up camera
+    //set up camera
     defaultCamera = new THREE.PerspectiveCamera(45,(window.innerWidth* 8)/(window.innerHeight * 9),1,1000);
     defaultCamera.position.set(20,6,20);
     defaultCamera.name = "defaultCamera";
     defaultCamera.lookAt(new THREE.Vector3(0,0,0));
 
-//default scene group
+    //default scene group
     DEFAULT = new THREE.Group();
     DEFAULT.name = "DEFAULT";
     scene.add(DEFAULT);
-//set up light
-//     light= new THREE.PointLight(0xffffff,.8);
-//     light.position.set(-5,10,10);
-//     light.name = "defaultLight";
-//     DEFAULT.add(light);
-//
-//     backgroundLight= new THREE.PointLight(0xffffff,.3);
-//     backgroundLight.position.set(5,5,-10);
-//
-//     DEFAULT.add(backgroundLight);
-//
-//
-//
-//     skyLight = new THREE.HemisphereLight(0x99CCFF,0x99FFCC, .8);
-//     skyLight.name = "defaultSkyLight";
-//     DEFAULT.add(skyLight);
-//
-//
-// //set up ground
-//     groundGeo = new THREE.PlaneBufferGeometry(1000,1000);
-//     groundMat = new THREE.MeshLambertMaterial({color:0xFFCC00});
-//     ground = new THREE.Mesh(groundGeo, groundMat);
-//     ground.rotation.x = -Math.PI/2;
-//     ground.name = "defaultGround";
-//     DEFAULT.add(ground);
-//
-// //set up sky
-//     skyGeo = new THREE.SphereGeometry(4000,32,15);
-//     skyMat = new THREE.MeshPhongMaterial({color:0x0033FF});
-//     sky = new THREE.Mesh(skyGeo, skyMat);
-//     sky.name = "defaultSky";
-//     DEFAULT.add(sky);
-//
-//
 
-    
+    //sensing elements group
+    sensingElements = new THREE.Group();
+    sensingElements.name = "sensingElements";
+    scene.add(sensingElements);
+
+    // user scene elements group
+    userSceneElements = new THREE.Group();
+    userSceneElements.name = "userSceneElements";
+    scene.add(userSceneElements);
+
+}
+
+
+//set up default background
+function defaultBackground () {
+
+//set up light
+    light= new THREE.PointLight(0xffffff,.8);
+    light.position.set(-5,10,10);
+    light.name = "defaultLight";
+    DEFAULT.add(light);
+
+    backgroundLight= new THREE.PointLight(0xffffff,.3);
+    backgroundLight.position.set(5,5,-10);
+
+    DEFAULT.add(backgroundLight);
+
+
+
+    skyLight = new THREE.HemisphereLight(0x99CCFF,0x99FFCC, .8);
+    skyLight.name = "defaultSkyLight";
+    DEFAULT.add(skyLight);
+
+
+//set up ground
+    groundGeo = new THREE.PlaneBufferGeometry(1000,1000);
+    groundMat = new THREE.MeshLambertMaterial({color:0xFFCC00});
+    ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI/2;
+    ground.name = "defaultGround";
+    DEFAULT.add(ground);
+
+//set up sky
+    skyGeo = new THREE.SphereGeometry(4000,32,15);
+    skyMat = new THREE.MeshPhongMaterial({color:0x0033FF});
+    sky = new THREE.Mesh(skyGeo, skyMat);
+    sky.name = "defaultSky";
+    DEFAULT.add(sky);
+
+
+
+
 
     //shadow
     DEFAULT.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
@@ -84,26 +99,17 @@ function init() {
 //     obj.castShadow =true;
 //     ground.receiveShadow =true;
 
-    
-    //sensing elements
-    sensingElements = new THREE.Group();
-    scene.add(sensingElements);
-    
-    
-    
-// test object
-    userSceneElements = new THREE.Group();
-    userSceneElements.name = "userSceneElements";
-    scene.add(userSceneElements);
-    
-    
 }
 
 
+//select transform group for edite
+function selectTransformGroup(group) {
+    return group;
+}
+
 function transform() {
-
 //transform
-
+    
     transformControls = new THREE.TransformControls( defaultCamera, container.firstElementChild);
     transformControls.addEventListener('change',render);
 
@@ -200,9 +206,10 @@ function transform() {
     }
 
     function handleClick() {
+        
+        //select transform elements
         if( onDownPosition.x == onUpPosition.x  &&  onDownPosition.y == onUpPosition.y  ) {
-            var intersects = getIntersects( onUpPosition, userSceneElements.children );
-            console.log(userSceneElements.children);
+            var intersects = getIntersects( onUpPosition, transformGroup.children );
 
             if ( intersects.length > 0 ) {
                 if (object !== intersects[0].object) {

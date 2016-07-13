@@ -5,7 +5,7 @@ function getData() {
     loader.crossOrigin = '';
 
     //replace "scene.json" by file url
-    loader.load( "scene.json", function ( data ) {
+    loader.load( "scene1.json", function ( data ) {
 
         fromJSON ( JSON.parse( data ));
 })
@@ -59,7 +59,7 @@ function addObject( object ) {
     } );
 
     scene.add( object );
-    userSceneElements = scene.children[2];
+    transformGroup = scene.children[2];
 
 }
 
