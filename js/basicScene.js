@@ -91,8 +91,6 @@ function defaultBackground () {
 
 
 
-
-
     //shadow
     DEFAULT.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
 //     renderer.shadowMapEnabled = true;
@@ -107,7 +105,6 @@ function defaultBackground () {
 function selectTransformGroup(group) {
     return group;
 }
-
 
 
 //container resize

@@ -8,7 +8,6 @@
 <body>
 
 <script src="js/three.js"></script>
-<script src="js/TransformControls.js"></script>
 <script src="js/EditorControls.js"></script>
 <script src="js/ColladaLoader.js"></script>
 
@@ -33,17 +32,16 @@
     renderer.setSize(window.innerWidth * 2/3, window.innerHeight * 3/4);
     container.appendChild(renderer.domElement);
 
-    var transformControls;
     init();
 
     getDataFromDatabase();
 
-    viewTransform();
+    var controls = new THREE.EditorControls(defaultCamera, container.firstElementChild);
+    controls.pan = function(){};
 
     //render
     function animate () {
         requestAnimationFrame(animate );
-        transformControls.update();
         render();
     }
 
