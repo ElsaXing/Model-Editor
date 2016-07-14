@@ -76,7 +76,7 @@ function addObject( object ) {
     } );
 
     scene.add( object );
-    transformGroup = scene.children[2];
+    transformGroup = scene.children[1];
 
 }
 

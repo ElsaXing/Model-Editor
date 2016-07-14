@@ -7,7 +7,7 @@
 </head>
 <body>
     <div id="container"></div>
-    <a href="ModelViewPage.html" id="linkButton">Model View</a>
+    <a href="ModelViewPage.html" id="linkButton">Model View Page</a>
     <div id="menuBar">
         <form>
             <input type="file" id="btn_inputModel"><br>
@@ -17,6 +17,7 @@
             <button type="button" class="btn_addMesh" onclick="addPreMesh('cylinder')">cylinder</button><br>
             <button type="button" id="btn_saveScene" onclick="addDataToDatabase()">save scene</button>
             <button type="button" id="btn_getScene" onclick="getDataFromDatabase()">get scene</button>
+            <!--<button type="button" id="btn_clearScene" onclick="clearScene()">clear scene</button>-->
         </form>
         <div id="menu"></div>
     </div>
@@ -41,9 +42,32 @@
     <script src="js/deleteObject.js"></script>
     <script src="js/showUserData.js"></script>
     <script src="js/transform.js"></script>
+    <script src="js/clearScene.js"></script>
 
 
     <script>
+        var scene,
+                defaultCamera,
+                renderer,
+                light,
+                backgroundLight,
+                skyLight;
+        var DEFAULT,
+                userSceneElements,
+                sensingElements;
+        var transformGroup;
+        var groundGeo,
+                groundMat,
+                ground,
+                skyGeo,
+                skyMat,
+                sky;
+        var object;
+        var deletedObject = [];
+        var transformControls;
+        var container =document.getElementById('container');
+
+
         //set up renderer
         renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setClearColor(0xccffff);

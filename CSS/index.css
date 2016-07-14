@@ -8,8 +8,9 @@
     width: 30%;
     height: 68%;
     float: right;
+    margin-top: 10px;
 }
 
 #linkButton {
-    padding: 15px;
+    margin: 15px;
 }

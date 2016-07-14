@@ -1,29 +1,3 @@
-/**
- * Created by Elsa on 2016/7/5.
- */
-
-var scene,
-    defaultCamera,
-    renderer,
-    light,
-    backgroundLight,
-    skyLight;
-var DEFAULT,
-    userSceneElements,
-    sensingElements;
-var transformGroup;
-var groundGeo,
-    groundMat,
-    ground,
-    skyGeo,
-    skyMat,
-    sky;
-var object;
-var deletedObject = [];
-var transformControls;
-var container =document.getElementById('container');
-
-
 function init() {
     //set up scene
     scene = new THREE.Scene();

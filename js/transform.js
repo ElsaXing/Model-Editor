@@ -1,6 +1,5 @@
 function transform() {
 //transform
-
     transformControls = new THREE.TransformControls( defaultCamera, container.firstElementChild);
     transformControls.addEventListener('change',render);
 
