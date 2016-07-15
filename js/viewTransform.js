@@ -4,12 +4,12 @@ var newMouseVector = new THREE.Vector2();
 var INTERSECTED;
 var plane = new THREE.Plane();
 
-document.addEventListener('mousedown', onMouseDown, false);
+container.addEventListener('mousedown', onMouseDown, false);
 
 function onMouseDown (e) {
     mouseVector = getMouseVector();
 
-    document.addEventListener('mouseup', onMouseUp, false);
+    container.addEventListener('mouseup', onMouseUp, false);
 }
 
 function onMouseUp (e) {
