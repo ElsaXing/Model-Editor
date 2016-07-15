@@ -3,62 +3,7 @@ function transform() {
     transformControls = new THREE.TransformControls( defaultCamera, container.firstElementChild);
     transformControls.addEventListener('change',render);
 
-    function eventTransformControls(key) {
-        var change;
-        if (key == 'add') {
-            change = window.addEventListener;
-        } else {
-            change = window.removeEventListener;
-        }
-        change( 'keydown', function ( event ) {
 
-            switch ( event.keyCode ) {
-                case 46: //delete
-                    deleteObject(object);
-                    transformControls.detach();
-                    eventTransformControls('remove');
-                    object = null;
-                    scene.remove(transformControls);
-                    break;
-
-                case 81: // Q
-                    transformControls.setSpace( transformControls.space === "local" ? "world" : "local" );
-                    break;
-
-                case 16: // Shift
-                    transformControls.setTranslationSnap( 100 );
-                    transformControls.setRotationSnap( THREE.Math.degToRad( 15 ) );
-                    break;
-
-                case 87: // W
-                    transformControls.setMode( "translate" );
-                    break;
-
-                case 69: // E
-                    transformControls.setMode( "rotate" );
-                    break;
-
-                case 82: // R
-                    transformControls.setMode( "scale" );
-                    break;
-
-            }
-
-        });
-
-        change( 'keyup', function ( event ) {
-
-            switch ( event.keyCode ) {
-
-                case 16: // Shift
-                    transformControls.setTranslationSnap( null );
-                    transformControls.setRotationSnap( null );
-                    break;
-
-            }
-
-        });
-    }
 
 
 //picking
@@ -100,6 +45,7 @@ function transform() {
                     eventTransformControls('add');
 
                     showInfo(object);
+                    // binding(object);
                 }
 
             }
@@ -144,4 +90,61 @@ function transform() {
     controls.pan = function(){};
 
 
+}
+
+function eventTransformControls(key) {
+    var change;
+    if (key == 'add') {
+        change = window.addEventListener;
+    } else {
+        change = window.removeEventListener;
+    }
+    change( 'keydown', function ( event ) {
+
+        switch ( event.keyCode ) {
+            case 46: //delete
+                deleteObject(object);
+                transformControls.detach();
+                eventTransformControls('remove');
+                object = null;
+                scene.remove(transformControls);
+                break;
+
+            case 81: // Q
+                transformControls.setSpace( transformControls.space === "local" ? "world" : "local" );
+                break;
+
+            case 16: // Shift
+                transformControls.setTranslationSnap( 100 );
+                transformControls.setRotationSnap( THREE.Math.degToRad( 15 ) );
+                break;
+
+            case 87: // W
+                transformControls.setMode( "translate" );
+                break;
+
+            case 69: // E
+                transformControls.setMode( "rotate" );
+                break;
+
+            case 82: // R
+                transformControls.setMode( "scale" );
+                break;
+
+        }
+
+    });
+
+    change( 'keyup', function ( event ) {
+
+        switch ( event.keyCode ) {
+
+            case 16: // Shift
+                transformControls.setTranslationSnap( null );
+                transformControls.setRotationSnap( null );
+                break;
+
+        }
+
+    });
 }
