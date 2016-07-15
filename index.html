@@ -65,7 +65,7 @@
                 skyGeo,
                 skyMat,
                 sky;
-        var object;
+        var INTERSECTED;
         var deletedObject = [];
         var transformControls;
         var container =document.getElementById('container');
@@ -83,7 +83,7 @@
 
         } else {
             init();
-//            getDataFromDatabase();
+            getDataFromDatabase();
         }
         transform();
         //render

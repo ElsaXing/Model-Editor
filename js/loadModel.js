@@ -60,6 +60,6 @@ function addPreMesh(mesh) {
 
 
 
-    sensingElements.add(preMesh);
+    scene.children[1].add(preMesh);
     transformGroup = scene.children[1];
 }

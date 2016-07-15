@@ -64,6 +64,10 @@ function showInfo (testobject) {
     positionY = createInput(positionDiv);
     positionZ = createInput(positionDiv);
 
+    positionX.id = 'positionX';
+    positionY.id = 'positionY';
+    positionZ.id = 'positionZ';
+
 
     positionX.value = testModel.position.x.toFixed(2);
     positionY.value = testModel.position.y.toFixed(2);
@@ -107,6 +111,9 @@ function showInfo (testobject) {
     rotationX = createInput(rotationDiv);
     rotationY = createInput(rotationDiv);
     rotationZ = createInput(rotationDiv);
+    rotationX.id = 'rotationX';
+    rotationY.id = 'rotationY';
+    rotationZ.id = 'rotationZ';
 
     var x = testModel.rotation.x * 180 / Math.PI;
     var y = testModel.rotation.y * 180 / Math.PI;
@@ -153,6 +160,9 @@ function showInfo (testobject) {
     scaleX = createInput(scaleDiv);
     scaleY = createInput(scaleDiv);
     scaleZ = createInput(scaleDiv);
+    scaleX.id = 'scaleX';
+    scaleY.id = 'scaleY';
+    scaleZ.id = 'scaleZ';
 
 
     scaleX.value = testModel.scale.x.toFixed(2);
@@ -219,6 +229,36 @@ function showInfo (testobject) {
     //     modelData.modelPosition = modelData.modelPosition;
     //     return newval;
     // })
+}
+function updateUI () {
+    var positionX = document.getElementById('positionX');
+    var positionY = document.getElementById('positionY');
+    var positionZ = document.getElementById('positionZ');
+
+    var rotationX = document.getElementById('rotationX');
+    var rotationY = document.getElementById('rotationY');
+    var rotationZ = document.getElementById('rotationZ');
+
+    var scaleX = document.getElementById('scaleX');
+    var scaleY = document.getElementById('scaleY');
+    var scaleZ = document.getElementById('scaleZ');
+
+    positionX.value = INTERSECTED.position.x.toFixed(2);
+    positionY.value = INTERSECTED.position.y.toFixed(2);
+    positionZ.value = INTERSECTED.position.z.toFixed(2);
+
+    var x = INTERSECTED.rotation.x * 180 / Math.PI;
+    var y = INTERSECTED.rotation.y * 180 / Math.PI;
+    var z = INTERSECTED.rotation.z * 180 / Math.PI;
+
+    rotationX.value = x.toFixed(2);
+    rotationY.value = y.toFixed(2);
+    rotationZ.value = z.toFixed(2);
+
+    scaleX.value = INTERSECTED.scale.x.toFixed(2);
+    scaleY.value = INTERSECTED.scale.y.toFixed(2);
+    scaleZ.value = INTERSECTED.scale.z.toFixed(2);
+
 }
 
 function hideInfo (testObject) {

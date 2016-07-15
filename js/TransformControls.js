@@ -908,6 +908,8 @@
 
 			point.copy( planeIntersect.point );
 
+			updateUI();
+
 			if ( _mode === "translate" ) {
 
 				point.sub( offset );

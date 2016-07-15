@@ -38,14 +38,14 @@ function transform() {
             var intersects = getIntersects( onUpPosition, transformGroup.children );
 
             if ( intersects.length > 0 ) {
-                if (object !== intersects[0].object) {
-                    object = intersects[0].object;
-                    transformControls.attach(object);
+                if (INTERSECTED !== intersects[0].object) {
+                    INTERSECTED = intersects[0].object;
+                    transformControls.attach(INTERSECTED);
                     scene.add(transformControls);
                     eventTransformControls('add');
 
-                    showInfo(object);
-                    // binding(object);
+                    showInfo(INTERSECTED);
+                    // binding(INTERSECTED);
                 }
 
             }
@@ -53,8 +53,8 @@ function transform() {
                 transformControls.detach();
                 eventTransformControls('remove');
 
-                hideInfo(object);
-                object = null;
+                hideInfo(INTERSECTED);
+                INTERSECTED = null;
                 scene.remove(transformControls);
 
             }
@@ -103,10 +103,10 @@ function eventTransformControls(key) {
 
         switch ( event.keyCode ) {
             case 46: //delete
-                deleteObject(object);
+                deleteObject(INTERSECTED);
                 transformControls.detach();
                 eventTransformControls('remove');
-                object = null;
+                INTERSECTED = null;
                 scene.remove(transformControls);
                 break;
 
