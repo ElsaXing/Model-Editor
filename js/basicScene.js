@@ -47,6 +47,8 @@ function defaultBackground () {
     skyLight.name = "defaultSkyLight";
     DEFAULT.add(skyLight);
 
+    DEFAULT.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
+
 
 //set up ground
     groundGeo = new THREE.PlaneBufferGeometry(1000,1000);
@@ -62,15 +64,6 @@ function defaultBackground () {
     sky = new THREE.Mesh(skyGeo, skyMat);
     sky.name = "defaultSky";
     DEFAULT.add(sky);
-
-
-
-    //shadow
-    DEFAULT.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
-//     renderer.shadowMapEnabled = true;
-//     light.castShadow = true;
-//     obj.castShadow =true;
-//     ground.receiveShadow =true;
 
 }
 
